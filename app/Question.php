@@ -14,6 +14,10 @@ class Question extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function replies(){
+        return $this->hasMany(Reply::class);
+    }
+
     public function setTitleAttribute($value){
         $this->attributes['title']= $value;
         $this->attributes['slug'] = Str::slug($value);
@@ -25,6 +29,16 @@ class Question extends Model
 
     public function getCreatedDateAttribute(){
         return $this->created_at->diffForHumans();
+    }
+    public function favourites(){
+        return $this->belongsToMany(User::class,'favourite');
+    }
+    public function isfavourited(){
+        return $this->favourites()->where('user_id',auth()->id())->count()>0;
+    }
+
+    public function getFavouritedAttribute(){
+        return $this->isfavourited();
     }
 
 }

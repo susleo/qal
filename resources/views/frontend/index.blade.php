@@ -1,6 +1,6 @@
 @extends('frontend/layouts.app')
 @section('header')
-{{--    @include('frontend/inc/header')--}}
+    @include('frontend/inc/header')
     @endsection
 @section('section')
 
@@ -12,14 +12,16 @@
                 <div class="tt-col-value hide-mobile">Likes</div>
                 <div class="tt-col-value hide-mobile">Views</div>
                 <div class="tt-col-value">Activity</div>
+                <div class="tt-col-value">Action</div>
             </div>
 
                  @foreach($questions as $dis)
             <div class="tt-item tt-itemselect">
                 <div class="tt-col-avatar">
-                    <svg class="tt-icon">
-                      Image
-                    </svg>
+                    <div style="border: 3px solid green;" class="votes" >
+                        <p align="center">Votes</p> <p align="center"><strong style="align: center">{{$dis->votes}}</strong></p>
+                    </div>
+
                 </div>
                 <div class="tt-col-description">
                     <h6 class="tt-title"><a href="{{$dis->url}}">
@@ -41,6 +43,21 @@
                 <div class="tt-col-value hide-mobile"> {{$dis->votes}}</div>
                 <div class="tt-col-value hide-mobile"> {{$dis->views}}</div>
                 <div class="tt-col-value hide-mobile">{{$dis->created_date}}</div>
+
+
+                <div class="tt-col-value hide-mobile">
+                    @if (Auth::check())
+                    @if(Auth::user()->can('update',$dis))
+                    <a href="{{route('question.edit',$dis->id)}}" class="btn btn-sm btn-outline-warning">Edit</a>
+                    <form action="{{route('question.destroy',$dis->id)}}" method="post">
+                        @method('DELETE')
+                        @csrf
+                        <button href="" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are You Sure?')">Delete</button>
+                    </form>
+                    @endif
+                   @endif
+                </div>
+
             </div>
 
             @endforeach

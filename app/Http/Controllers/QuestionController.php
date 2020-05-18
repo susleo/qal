@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AskQuestion;
 use App\Question;
+use App\Reply;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -12,10 +15,16 @@ class QuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+         $this->middleware('auth',['except'=>['index','show']]);
+    }
+
     public function index()
     {
         //
-        $questions = Question::latest()->paginate(5);
+        $questions = Question::latest()->paginate(15);
         return view('frontend.index')
             ->with('questions',$questions);
     }
@@ -28,6 +37,7 @@ class QuestionController extends Controller
     public function create()
     {
         //
+        return view('frontend.discussion.create');
     }
 
     /**
@@ -36,9 +46,14 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AskQuestion $request)
     {
         //
+        $request->user()->questions()->create(
+            $request->only('title','body')
+        );
+        Toastr::success('Quesetion Created Sucess');
+        return redirect(route('question.index'));
     }
 
     /**
@@ -47,9 +62,11 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Question $question)
     {
         //
+          $question->increment('views');
+        return view('frontend.discussion.show')->with('question',$question);
     }
 
     /**
@@ -58,9 +75,11 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Question $question)
     {
-        //
+          $this->authorize('update',$question);
+        return view('frontend.discussion.create')
+            ->with('question',$question);
     }
 
     /**
@@ -70,9 +89,14 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AskQuestion $request, Question $question)
     {
         //
+        $question->update(
+            $request->only('title','body')
+        );
+        Toastr::success('Quesetion Updated Sucess');
+        return redirect(route('question.index'));
     }
 
     /**
@@ -81,8 +105,32 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Question $question)
     {
         //
+        $this->authorize('delete',$question);
+        $question->delete();
+
+        Toastr::success('Quesetion Deleted Sucess');
+        return redirect(route('question.index'));
     }
+
+    public function bestReply(Question $question ,Reply $reply){
+        $question->reply_id = $reply->id;
+        $question->update();
+       return back();
+    }
+
+    public function favourite(Question $question){
+        $question->favourites()->attach(auth()->id());
+        return back();
+    }
+
+
+    public function unfavourite(Question $question){
+        $question->favourites()->detach(auth()->id());
+        return back();
+    }
+
+
 }

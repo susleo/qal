@@ -18,9 +18,9 @@
                 <div class="tt-desktop-menu">
                     <nav>
                         <ul>
-                            <li><a href="{{route('category')}}"><span>Categories</span></a></li>
+                            <li><a href="{{route('question.index')}}"><span>Home</span></a></li>
                             <li><a href="page-tabs.html"><span>Trending</span></a></li>
-                            <li><a href="{{route('discussion.create')}}"><span>New</span></a></li>
+                            <li><a href="{{route('question.create')}}"><span>New</span></a></li>
                         </ul>
                     </nav>
                 </div>
@@ -119,13 +119,13 @@
                 <div class="col-auto ml-auto">
                     <div class="tt-user-info d-flex justify-content-center">
                         <div class="tt-avatar-icon tt-size-md">
-                            <a href="{{route('notifcations')}}">
-                            <span class="badge badge-danger" >
-                            {{auth()->user()->unreadNotifications->count()}} unread notifcations
-                                </span>
-                            </a>
-                            <img src="{{auth()->user()->image ?? Gravatar::src(auth()->user()->email)}}"
-                                 alt=""height="50px" width="60px" style="border-radius: 50%">
+{{--                            <a href="{{route('notifcations')}}">--}}
+{{--                            <span class="badge badge-danger" >--}}
+{{--                            {{auth()->user()->unreadNotifications->count()}} unread notifcations--}}
+{{--                                </span>--}}
+{{--                            </a>--}}
+{{--                            <img src="{{auth()->user()->image ?? Gravatar::src(auth()->user()->email)}}"--}}
+{{--                                 alt=""height="50px" width="60px" style="border-radius: 50%">--}}
                             <span class="tt-color01 tt-badge" >
                                    {{auth()->user()->name}}
                                 </span>

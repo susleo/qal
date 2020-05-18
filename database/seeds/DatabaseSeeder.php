@@ -17,7 +17,26 @@ class DatabaseSeeder extends Seeder
                $u->questions()
                ->saveMany(
                    factory(\App\Question::class,rand(1,5))->make()
-               );
+               )
+                   ->each(function ($p){
+                       $p->replies()
+                       ->saveMany(
+                           factory(\App\Reply::class,rand(1,5))->make()
+                       )    ;
+                   });
             });
+
+        $users = \App\User::pluck('id')->all();
+        $number = count($users);
+
+        foreach (\App\Question::all() as $question){
+            for ($i=0 ; $i<rand(1,$number);$i++){
+                $user = $users[$i];
+                $question->favourites()->attach($user);
+            }
+
+        }
+
+
     }
 }

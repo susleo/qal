@@ -21,4 +21,9 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('/question', 'QuestionController');
+Route::resource('question.reply', 'ReplyController')->except(['index','show','create']);
 
+Route::post('question/{question}/reply/{reply}', 'QuestionController@bestReply')->name('bestReply');
+
+Route::delete('fav/{question}/', 'QuestionController@unfavourite')->name('unfav');
+Route::post('fav/{question}/', 'QuestionController@favourite')->name('fav');
