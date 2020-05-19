@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Reply extends Model
 {
     //
+    use VootableTrait;
 
     protected $guarded = [];
 
@@ -22,4 +23,5 @@ class Reply extends Model
     public function getCreatedDateAttribute(){
         return $this->created_at->diffForHumans();
     }
+
 }

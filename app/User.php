@@ -47,4 +47,31 @@ class User extends Authenticatable
         return $this->belongsToMany(Question::class,'favourite');
     }
 
+    public function voteQuestions(){
+        return $this->morphedByMany(Question::class,'votable');
+    }
+    public function voteReplies(){
+        return $this->morphedByMany(Reply::class,'votable');
+    }
+
+
+    public function _vote($relationship ,$modal,$vote){
+        if ($relationship->where('votable_id',$modal->id)->exists()){
+            $relationship->updateExistingPivot($modal,['vote'=>$vote]);
+        }else{
+            $relationship->attach($modal,['vote'=>$vote]);
+        }
+    }
+
+    public function voteTheQuestion(Question $question, $vote){
+     $voteQuest = $this->voteQuestions();
+       $this->_vote($voteQuest,$question,$vote);
+
+    }
+
+
+    public function voteTheReply(Reply $reply, $vote){
+        $voteReply = $this->voteReplies();
+        $this->_vote($voteReply,$reply,$vote);
+    }
 }

@@ -112,5 +112,12 @@ class ReplyController extends Controller
         return back();
     }
 
+    public function voteCont(Reply $reply){
+        $vote = (int) \request()->vote;
+
+        auth()->user()->voteTheReply($reply,$vote);
+
+        return back();
+    }
 
 }

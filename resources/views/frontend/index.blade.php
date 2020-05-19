@@ -19,7 +19,7 @@
             <div class="tt-item tt-itemselect">
                 <div class="tt-col-avatar">
                     <div style="border: 3px solid green;" class="votes" >
-                        <p align="center">Votes</p> <p align="center"><strong style="align: center">{{$dis->votes}}</strong></p>
+                        <p align="center">Votes</p> <p align="center"><strong style="align: center">{{$dis->votes_count}}</strong></p>
                     </div>
 
                 </div>
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="tt-col-category"><span class="tt-color01 tt-badge">Hello </span></div>
-                <div class="tt-col-value hide-mobile"> {{$dis->votes}}</div>
+                <div class="tt-col-value hide-mobile"> {{$dis->votes_count}}</div>
                 <div class="tt-col-value hide-mobile"> {{$dis->views}}</div>
                 <div class="tt-col-value hide-mobile">{{$dis->created_date}}</div>
 

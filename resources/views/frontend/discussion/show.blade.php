@@ -41,14 +41,24 @@
                             </div>
 
                         <div class="tt-item-info info-bottom ">
-                            <a href="#" class="tt-icon-btn">
+                            <form action="{{route('votes',$question->id)}}" method="POST">
+                                @csrf
+                          <button>
                                 <i class="fa fa-arrow-up fa-4x" aria-hidden="true"></i>
-                                <span class="tt-text">Vote Up</span>
-                            </a>
-                            <a href="#" class="tt-icon-btn">
+                              <input type="hidden" name="vote" value="1">
+                                <span class="tt-text">{{$question->up}}</span>
+                          </button>
+                            </form>
+
+                            <form action="{{route('votes',$question->id)}}" method="POST">
+                                @csrf
+                            <button>
                                 <i class="fa fa-arrow-down fa-4x" aria-hidden="true"></i>
-                                <span class="tt-text">Vote Down</span>
-                            </a>
+                                <input type="hidden" name="vote" value="-1">
+                                <span class="tt-text">{{$question->down}}</span>
+
+                            </button>
+                            </form>
                             <form action="{{($question->favourited)?route('unfav',$question->id):route('fav',$question->id)}}" method="POST">
                                 @csrf
                                 @if($question->favourited)
@@ -71,47 +81,6 @@
                     <span class="badge badge-primary">{{$question->replies->count()}} REPLIES </span>
                     </h2>
                 </div>
-
-
-{{--                @if($question->bestReply)--}}
-{{--               <div class="alert alert-success" role="alert">--}}
-{{--                    <span class="badge badge-danger">--}}
-{{--                                    Best Reply--}}
-{{--                        </span>--}}
-{{--                    <div class="tt-single-topic">--}}
-{{--                        <div class="tt-item-header pt-noborder">--}}
-{{--                            <div class="tt-item-info info-top">--}}
-{{--                                <div class="tt-avatar-icon">--}}
-{{--                                    <img src="{{$dicussion->user->image ?? Gravatar::src($question->user->email)}}" alt="">--}}
-{{--                                </div>--}}
-{{--                                <div class="tt-avatar-title">--}}
-{{--                                    <a href="#">{{$question->bestReply->user->name}}</a>--}}
-{{--                                </div>--}}
-{{--                                <span class="tt-info-time">--}}
-{{--                                    {{\Carbon\Carbon::parse($question->bestReply->created_at)->format('d/m/Y')}}--}}
-{{--                                </span>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="tt-item-description">--}}
-{{--                            {!! \Illuminate\Support\Str::ucfirst($question->bestReply->contents)!!}--}}
-{{--                        </div>--}}
-{{--                        <div class="tt-item-info info-bottom">--}}
-{{--                            <a href="#" class="tt-icon-btn">--}}
-{{--                                <span class="tt-text">671</span>--}}
-{{--                            </a>--}}
-{{--                            <a href="#" class="tt-icon-btn">--}}
-{{--                                <span class="tt-text">39</span>--}}
-{{--                            </a>--}}
-{{--                            <a href="#" class="tt-icon-btn">--}}
-{{--                                <span class="tt-text">12</span>--}}
-{{--                            </a>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            @endif--}}
-
-
-
 
 
                 @foreach($question->replies()->latest()->paginate(8) as $reply)
@@ -157,18 +126,23 @@
                            {!! \Illuminate\Support\Str::ucfirst($reply->body) !!}
                         </div>
                         <div class="tt-item-info info-bottom">
-                            <a href="#" class="tt-icon-btn">
+                            <form action="{{route('voteReply',$reply->id)}}" method="POST">
+                                @csrf
+                            <button>
                                 <i class="fa fa-arrow-up" aria-hidden="true"></i>
-                                <span class="tt-text">671</span>
-                            </a>
-                            <a href="#" class="tt-icon-btn">
-                                <i class="fa fa-arrow-down " aria-hidden="true"></i>
-                                <span class="tt-text">39</span>
-                            </a>
-                            <a href="#" class="tt-icon-btn">
-                                <i class="fa fa-heart " aria-hidden="true"></i>
-                                <span class="tt-text">12</span>
-                            </a>
+                                <input type="hidden" name="vote" value="1">
+                                <span class="tt-text">{{$reply->up}}</span>
+                            </button>
+                            </form>
+
+                            <form action="{{route('voteReply',$reply->id)}}" method="POST">
+                                @csrf
+                                <button>
+                                    <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                                    <span class="tt-text">{{$reply->down}}</span>
+                                    <input type="hidden" name="vote" value="-1">
+                                </button>
+                            </form>
 
                         </div>
                         <div class="float-right">

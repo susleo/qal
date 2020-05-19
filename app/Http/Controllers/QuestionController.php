@@ -133,4 +133,13 @@ class QuestionController extends Controller
     }
 
 
+
+    public function voteCont(Question $question){
+        $vote = (int) \request()->vote;
+
+        auth()->user()->voteTheQuestion($question,$vote);
+
+        return back();
+    }
+
 }

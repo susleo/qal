@@ -27,3 +27,10 @@ Route::post('question/{question}/reply/{reply}', 'QuestionController@bestReply')
 
 Route::delete('fav/{question}/', 'QuestionController@unfavourite')->name('unfav');
 Route::post('fav/{question}/', 'QuestionController@favourite')->name('fav');
+
+
+Route::post('question/{question}/vote/','QuestionController@voteCont')->name('votes');
+Route::post('reply/{reply}/vote/','ReplyController@voteCont')->name('voteReply');
+
+Route::post('voteup/{question}/', 'QuestionController@voteup')->name('up');
+Route::post('votedown/{question}/', 'QuestionController@votedown')->name('downn');

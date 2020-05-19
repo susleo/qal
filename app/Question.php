@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 class Question extends Model
 {
     //
+    use VootableTrait;
+
     protected $guarded = [];
 
     public function user(){
@@ -40,5 +42,7 @@ class Question extends Model
     public function getFavouritedAttribute(){
         return $this->isfavourited();
     }
+
+
 
 }

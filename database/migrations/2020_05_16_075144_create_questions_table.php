@@ -19,7 +19,7 @@ class CreateQuestionsTable extends Migration
             $table->string('slug');
             $table->text('body');
             $table->unsignedInteger('views')->default(0);
-            $table->unsignedInteger('votes')->default(0);
+            $table->unsignedInteger('votes_count')->default(0);
             $table->unsignedInteger('reply_id')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
